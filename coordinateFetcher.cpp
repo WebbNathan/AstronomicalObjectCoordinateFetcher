@@ -1,8 +1,20 @@
 #include <iostream>
+#include "AstronomicalObjectsProto.h"
 using namespace std;
 
+/* Step zero: catalog preperation and source data (NON SOLAR SYSTEM OBJECTS)
+
+    - Probably the first step should be to load the J2000 data into an object
+
+*/
+
+void setObjectData(AstronomicalObject &newObj, FILE* J200_data);
+
 int main() {
-    cout << "Test" << endl;
+    
+    AstronomicalObject newObj = AstronomicalObject("Jupiter", 0, 0, 0);
+
+    cout << newObj.getId() << endl;
 
     return 0;
 }

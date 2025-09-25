@@ -1,72 +1,60 @@
 #include <iostream>
+#include "AstronomicalObjectsProto.h"
 
-class AstronomicalObject {  //Stores information about an object
-    private:
-        std::string id;
-        double J2000_R_a;
-        double J2000_Dec;
-        double magnitude;
-        //Possibly more
+AstronomicalObject::AstronomicalObject(std::string id, double J2000_R_a, double J2000_Dec, 
+                   double magnitude) 
+{
+    this->id = id;
+    this->J2000_R_a = J2000_R_a;
+    this->J2000_Dec = J2000_Dec;
+    this->magnitude = magnitude;
+}
 
-        double curr_R_a;
-        double curr_Dec;
+void AstronomicalObject::setId(std::string id) {
+    this->id = id;
+}
 
-    public:
-        AstronomicalObject(std::string id, double J2000_R_a, double J2000_Dec, 
-                           double magnitude) 
-        {
-            this->id = id;
-            this->J2000_R_a = J2000_R_a;
-            this->J2000_Dec = J2000_Dec;
-            this->magnitude = magnitude;
-        }
+void AstronomicalObject::setJ200_R_a(double J200_R_a) {
+    this->J2000_R_a = J2000_R_a;
+}
 
-        void setId(std::string id) {
-            this->id = id;
-        }
+void AstronomicalObject::setJ200_Dec(double J200_Dec) {
+    this->J2000_Dec = J200_Dec;
+}
 
-        void setJ200_R_a(double J200_R_a) {
-            this->J2000_R_a = J2000_R_a;
-        }
+void AstronomicalObject::setMagnitude(double magnitude) {
+    this->magnitude = magnitude;
+}
 
-        void setJ200_Dec(double J200_Dec) {
-            this->J2000_Dec = J200_Dec;
-        }
+void AstronomicalObject::setCurr_R_a(double curr_R_a) {
+    this->curr_R_a = curr_R_a;
+}
 
-        void setMagnitude(double magnitude) {
-            this->magnitude = magnitude;
-        }
+void AstronomicalObject::setCurr_Dec(double curr_Dec) {
+    this->curr_Dec = curr_Dec;
+}
 
-        void setCurr_R_a(double curr_R_a) {
-            this->curr_R_a = curr_R_a;
-        }
+std::string AstronomicalObject::getId() {
+    return id;
+}
 
-        void setCurr_Dec(double curr_Dec) {
-            this->curr_Dec = curr_Dec;
-        }
+double AstronomicalObject::getJ200_R_a() {
+    return J2000_R_a;
 
-        std::string getId() {
-            return id;
-        }
+}
 
-        double getJ200_R_a() {
-            return J2000_R_a;
+double AstronomicalObject::getJ200_Dec() {
+    return J2000_Dec;
+}
 
-        }
-        
-        double getJ200_Dec() {
-            return J2000_Dec;
-        }
+double AstronomicalObject::getMagnitude() {
+    return magnitude;
+}
 
-        double getMagnitude() {
-            return magnitude;
-        }
+double AstronomicalObject::getCurr_R_a() {
+    return curr_R_a;
+}
 
-        double getCurr_R_a() {
-            return curr_R_a;
-        }
-
-        double getCurr_dec() {
-            return curr_Dec;
-        }
-};
+double AstronomicalObject::getCurr_dec() {
+    return curr_Dec;
+}

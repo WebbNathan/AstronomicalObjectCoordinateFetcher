@@ -9,12 +9,3 @@ using namespace std;
 */
 
 void setObjectData(AstronomicalObject &newObj, FILE* J200_data);
-
-int main() {
-    
-    AstronomicalObject newObj = AstronomicalObject("Jupiter", 0, 0, 0);
-
-    cout << newObj.getId() << endl;
-
-    return 0;
-}

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "AstronomicalObjectsProto.h"
+#include "coordinateFetcher.h"
 using namespace std;
 
 //This file will act as a test driver for my project
@@ -7,6 +8,8 @@ using namespace std;
 int main() {
 
     AstronomicalObject newObj = AstronomicalObject("Jupiter", 0, 0, 0);
+
+    returnLookUpTable()
 
     cout << newObj.getId() << endl;
 

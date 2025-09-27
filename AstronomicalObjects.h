@@ -39,5 +39,4 @@ class AstronomicalObject {  //Stores information about an object
         double getMagnitude();
         R_a getCurr_R_a();
         Dec getCurr_Dec();
-        void calcCurrentR_a_Dec(); //Thinking this should be a memeber of the class
 };

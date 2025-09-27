@@ -4,6 +4,7 @@
 #include <array>
 #include <string>
 #include <fstream>
+#include <sys/time.h>
 #include "AstronomicalObjects.h"
 
 class Control {
@@ -13,13 +14,20 @@ class Control {
         AstronomicalObject currentObj;
         std::string dataFileName; //Defualt: sao.txt
 
+        double observerLat;
+        double observerLong;
+
     public:
         Control();
         Control(std::string dataFileName); //For inputting different data
         void populateDataTable();
         void setAstroObject(int SAOid);
+        void setObserverLat(double observerLat);
+        void setObserverLong(double observerLong);
         AstronomicalObject getAstroObject(); //May not keep
+        double getObserverLat();
+        double getObserverLong();
         void displayObjectData();
-        void pointing(); //This will run the coordinate calulation routine PROBABLY RENAME
-        void getLST();
+        void targetPointing(); //This will run the coordinate calulation routine PROBABLY RENAME
+        static void getLST(timeval currTIme); //Seems useful to be static
 };

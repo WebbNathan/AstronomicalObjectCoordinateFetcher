@@ -36,3 +36,9 @@ I.e. parralax corrections, and calulating hour angles.
 
 Then I will try to model the more complex stuff like atmospheric aberration
 and what not.
+
+Goal for today is to write the getLST method, which will take as input the current time, 
+and output the LST
+
+Im going to ignore DUT1 time correction right now because I do not understand
+how to obtain it

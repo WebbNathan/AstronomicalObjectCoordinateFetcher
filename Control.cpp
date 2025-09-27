@@ -3,6 +3,7 @@
 #include <array>
 #include <string>
 #include <fstream>
+#include <sys/time.h>
 #include "AstronomicalObjects.h"
 #include "Control.h"
 #include "DataTypes.h"
@@ -60,6 +61,22 @@ void Control::setAstroObject(int SAOid) {
     currentObj.setJ2000_Dec_sec(std::stod(dataTable[SAOid - 1][9]));
 }
 
+void Control::setObserverLat(double observerLat) {
+    this->observerLat = observerLat;
+}
+
+void Control::setObserverLong(double observerLong) {
+    this->observerLong = observerLong;
+}
+
+double Control::getObserverLat() {
+    return observerLat;
+}
+
+double Control::getObserverLong() {
+    return observerLong;
+}
+
 void Control::displayObjectData() {
     std::cout << "Object ID: " << this->currentObj.getId() << std::endl
               << "R_a_Hour: " << this->currentObj.getJ2000_R_a().hours << std::endl
@@ -72,6 +89,16 @@ void Control::displayObjectData() {
               << "Dec seconds: " << this->currentObj.getJ2000_Dec().arcseconds << std::endl;
 }
 
-void Control::pointing() {
+void Control::targetPointing() {
     
+}
+
+void Control::getLST(timeval currTime) { //Currently does not have sub-second ccuracy 
+    gettimeofday(&currTime, NULL);
+
+    double secondsSinceStartofDay;
+
+    secondsSinceStartofDay = currTime.tv_sec % 86400; //Should return time since the start of the day
+
+    std::cout << currTime.tv_sec << " " << currTime.tv_usec << std::endl;
 }

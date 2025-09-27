@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "AstronomicalObjectsProto.h"
 
 AstronomicalObject::AstronomicalObject(std::string id, double J2000_R_a, double J2000_Dec, 
@@ -8,6 +9,13 @@ AstronomicalObject::AstronomicalObject(std::string id, double J2000_R_a, double 
     this->J2000_R_a = J2000_R_a;
     this->J2000_Dec = J2000_Dec;
     this->magnitude = magnitude;
+}
+
+AstronomicalObject::AstronomicalObject() {
+    this->id = "Blank";
+    this->J2000_R_a = 0;
+    this->J2000_Dec = 0;
+    this->magnitude = 0;
 }
 
 void AstronomicalObject::setId(std::string id) {

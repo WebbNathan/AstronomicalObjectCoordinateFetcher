@@ -2,8 +2,8 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <array>
 #include "AstronomicalObjectsProto.h"
-using namespace std;
 
 /* Step zero: catalog preperation and source data (NON SOLAR SYSTEM OBJECTS)
 
@@ -11,26 +11,32 @@ using namespace std;
 
 */
 
-void setObjectData(AstronomicalObject &newObj, FILE* J200_data) {
-    
-}
-
-void returnLookUpTable(vector<vector<string>> &dataTable, string fileName, const int parameters) {
-    ifstream inpFile;
-    string tempStr;
+void returnLookUpTable(std::vector<std::array<std::string, 20>> &dataTable, std::string fileName, const int parameters) {
+    std::ifstream inpFile;
+    std::string tempStr;
+    std::array<std::string, 20> tempArr;
     int colIter = 0; //This will count how many data memebers ive input into table for each row
-    int rowIter = 0;
     
     inpFile.open(fileName);
     
-    while(getline(inpFile, tempStr, ',')) {
-        dataTable[rowIter][colIter] = tempStr;
-        colIter++;
-        if(colIter >= parameters - 1) {
-            rowIter++;
-            colIter = 0;
-        }
+    while(getline(inpFile, tempStr)) {
+        //std::cout << tempStr.substr(0,6) << std::endl;
+        //Formula for calulting substr args:
+        //arg 1 = first byte - 1
+        //arg 2 = last byte - first byte + 1
+        tempArr[0] = tempStr.substr(0,6); //ID
+        tempArr[1] = tempStr.substr(7, 10); //R_a
+        tempArr[2] = tempStr.substr(17, 7); //Proper motion in R_a
+        dataTable.push_back(tempArr);
     }
 
     inpFile.close();
+}
+
+void searchTableByID(std::string id) {
+
+}
+
+void setObjectData(AstronomicalObject &newObj) {
+    
 }

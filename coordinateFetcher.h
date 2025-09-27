@@ -2,7 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <array>
 #include "AstronomicalObjectsProto.h"
 
-void setObjectData(AstronomicalObject &newObj, FILE* J200_data);
-void returnLookUpTable(vector<vector<string>> &dataTable, string fileName, const int parameters);
+void returnLookUpTable(std::vector<std::array<std::string, 20>> &dataTable, std::string fileName, const int parameters);
+void searchTableByID(std::string id);
+void setObjectData(AstronomicalObject &newObj);

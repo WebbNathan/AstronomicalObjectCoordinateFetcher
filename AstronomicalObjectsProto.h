@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <string>
 
 class AstronomicalObject {  //Stores information about an object
     private:
@@ -15,6 +16,7 @@ class AstronomicalObject {  //Stores information about an object
     public:
         AstronomicalObject(std::string id, double J2000_R_a, double J2000_Dec, 
                            double magnitude);
+        AstronomicalObject();
         void setId(std::string id);
         void setJ200_R_a(double J200_R_a);
         void setJ200_Dec(double J200_Dec);

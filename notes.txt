@@ -1,0 +1,38 @@
+9/26
+...
+Still figuring out exactly how best to layout the program
+The goal of this program is to take as input an object and to
+calculate the current right ascension and declination of the
+object. To do this I feel that I should follow these steps
+    - First get all data that I currently believe I need
+      stored into a table. Im close to doing this currently
+      - Im thinking it may be cool to have a boolean argument
+        in the returnTable function for each parameter in the table.
+        May be cumbersome however. Maybe input array of bools?
+    - Then I believe I can start figuring out how I will
+      do the first calculations. Currently im not sure what
+      those calculations will be. I need to do more research
+
+Also thinking about the overall structure of the program
+
+Should the AstronomicalObject class have a method for calulating its current coordinates?
+
+Should every function I've written so far be a member of the class?
+
+Maybe the whole data table should be a member of the class?
+    - This wouldn't make much sense, if multiple objects were
+      created, this would create much memory waste
+
+Maybe should talk to a professor about this to get their thoughts
+as I don't currently know much about what is needed for this program
+to work accurately
+...
+
+9/27
+...
+Have done a bit more research, I think im going to try to model the basics first
+
+I.e. parralax corrections, and calulating hour angles.
+
+Then I will try to model the more complex stuff like atmospheric aberration
+and what not.

@@ -5,6 +5,7 @@
 #include <fstream>
 #include "AstronomicalObjects.h"
 #include "Control.h"
+#include "DataTypes.h"
 
 Control::Control() {
     this->currentObj = AstronomicalObject();
@@ -53,7 +54,7 @@ void Control::setAstroObject(int SAOid) {
     currentObj.setJ2000_R_a_Sec(std::stod(dataTable[SAOid - 1][3]));
     currentObj.setJ2000_R_a_PM(std::stod(dataTable[SAOid - 1][4]));
     currentObj.setJ2000_R_a_PMSD(std::stod(dataTable[SAOid - 1][5]));
-    currentObj.setDecSign(dataTable[SAOid - 1][6]);
+    currentObj.setJ2000_DecSign(dataTable[SAOid - 1][6]);
     currentObj.setJ2000_Dec_deg(std::stod(dataTable[SAOid - 1][7]));
     currentObj.setJ2000_Dec_min(std::stod(dataTable[SAOid - 1][8]));
     currentObj.setJ2000_Dec_sec(std::stod(dataTable[SAOid - 1][9]));
@@ -61,12 +62,16 @@ void Control::setAstroObject(int SAOid) {
 
 void Control::displayObjectData() {
     std::cout << "Object ID: " << this->currentObj.getId() << std::endl
-              << "R_a_Hour: " << this->currentObj.getJ2000_R_a_Hour() << std::endl
-              << "R_a_Min: " << this->currentObj.getJ2000_R_a_Min() << std::endl
-              << "R_a_Sec: " << this->currentObj.getJ2000_R_a_Sec() << std::endl
+              << "R_a_Hour: " << this->currentObj.getJ2000_R_a().hours << std::endl
+              << "R_a_Min: " << this->currentObj.getJ2000_R_a().minutes << std::endl
+              << "R_a_Sec: " << this->currentObj.getJ2000_R_a().seconds << std::endl
               << "Proper Motion R_a: " << this->currentObj.getJ2000_R_a_PM() << std::endl
               << "Proper Motion Standard Deviation R_a: " << this->currentObj.getJ2000_R_a_PMSD() << std::endl
-              << "Dec degree: " << this->currentObj.getDecSign() << this->currentObj.getJ2000_Dec_deg() << std::endl
-              << "Dec minutes: " << this->currentObj.getJ2000_Dec_min() << std::endl
-              << "Dec seconds: " << this->currentObj.getJ2000_Dec_sec() << std::endl;
+              << "Dec degree: " << this->currentObj.getJ2000_Dec().sign * this->currentObj.getJ2000_Dec().degrees << std::endl
+              << "Dec minutes: " << this->currentObj.getJ2000_Dec().arcminutes << std::endl
+              << "Dec seconds: " << this->currentObj.getJ2000_Dec().arcseconds << std::endl;
+}
+
+void Control::pointing() {
+    
 }

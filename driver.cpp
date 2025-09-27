@@ -5,6 +5,7 @@
 #include <fstream>
 #include "AstronomicalObjects.h"
 #include "Control.h"
+#include "DataTypes.h"
 using namespace std;
 
 //This file will act as a test driver for my project
@@ -15,7 +16,7 @@ int main() {
 
     controlObj.populateDataTable();
 
-    controlObj.setAstroObject(1);
+    controlObj.setAstroObject(209865);
 
     controlObj.displayObjectData();
 

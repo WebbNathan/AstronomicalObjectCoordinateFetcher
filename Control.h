@@ -7,6 +7,7 @@
 #include "AstronomicalObjects.h"
 
 class Control {
+
     private:
         std::vector<std::array<std::string, 20>> dataTable;
         AstronomicalObject currentObj;
@@ -19,4 +20,6 @@ class Control {
         void setAstroObject(int SAOid);
         AstronomicalObject getAstroObject(); //May not keep
         void displayObjectData();
+        void pointing(); //This will run the coordinate calulation routine PROBABLY RENAME
+        void getLST();
 };

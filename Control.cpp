@@ -121,29 +121,25 @@ void Control::targetPointing() {
 }
 
 void Control::getLST() { //Currently does not have sub-second ccuracy 
-    std::vector<std::string> tokenizedCSV;
-    double DUT1, UTC, UT1;
-    time_t timestamp;
-    struct tm *dateTime;
-    char outputTimeArr[20];
-    std::string outputTimeStr;
-    timeval currTime;
+    double UT1, julianDate;
 
-    int day;
-    int month;
-    int year;
-    double julianDate;
-    double UT1Hour;
-    double UT1Integral;
-    double UT1Fractional;
-    double UT1SecSinceStartofDayIntegral;
-    double UT1SecSinceStartofDayFractional;
+    UT1 = returnUT1("bulletina-xxxviii-039.csv");
+    julianDate = returnJulianDay(UT1);
+
+    std::cout << std::fixed << julianDate << std::endl;
+
+}
+
+double Control::returnUT1(std::string DUT1fileName) {
+    std::vector<std::string> tokenizedCSV;
+    timeval currTime;  
+    double DUT1, UTC, UT1; 
 
     //Loading the IERA Bulletin  A file (may want to make the name an argument or something)
     std::ifstream file;
     file.open("bulletina-xxxviii-039.csv");
     if(!file.is_open()) {
-        std::cout << "file did not open" << std::endl;
+        std::cout << "DUT1 data file could not open" << std::endl;
     }
 
     //Getting a tokenized line from the IERS Bulletin A file
@@ -155,7 +151,24 @@ void Control::getLST() { //Currently does not have sub-second ccuracy
     UTC = currTime.tv_sec + (currTime.tv_usec / 1000000.0);
     UT1 = UTC + DUT1;
 
-    std::cout << std::fixed << UTC << " + " << DUT1 << " = " << " " << UT1 <<  std::endl;
+    return UT1;
+}
+
+double Control::returnJulianDay(double UT1) {
+    time_t timestamp;
+    struct tm *dateTime;
+    char outputTimeArr[20];
+    std::string outputTimeStr;
+
+    int day;
+    int month;
+    int year;
+    double julianDate;
+    double UT1Hour;
+    double UT1Integral;
+    double UT1Fractional;
+    double UT1SecSinceStartofDayIntegral;
+    double UT1SecSinceStartofDayFractional;
 
     //Get Julian Day
     timestamp = time(NULL);
@@ -182,5 +195,5 @@ void Control::getLST() { //Currently does not have sub-second ccuracy
                  std::trunc((275.0 * month) / 9.0) + day + 1721013.5 + (UT1Hour / 24.0) -
                  (0.5 * std::copysign(1.0, (100.0 * year) + month - 190002.5)) + 0.5;
 
-    std::cout << julianDate << std::endl;
+    return julianDate;
 }

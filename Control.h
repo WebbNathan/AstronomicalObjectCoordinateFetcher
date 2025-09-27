@@ -33,4 +33,6 @@ class Control {
         void displayObjectData();
         void targetPointing(); //This will run the coordinate calulation routine PROBABLY RENAME
         void getLST();
+        static double returnUT1(std::string DUT1fileName);
+        static double returnJulianDay(double UT1);
 };

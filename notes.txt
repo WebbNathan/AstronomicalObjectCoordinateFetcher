@@ -42,3 +42,5 @@ and output the LST
 
 Im going to ignore DUT1 time correction right now because I do not understand
 how to obtain it
+
+Hours since midnight = (std::trunc(UT1) % 86400 + std::modf(UT1))

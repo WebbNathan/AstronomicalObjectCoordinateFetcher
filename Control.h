@@ -17,6 +17,9 @@ class Control {
         double observerLat;
         double observerLong;
 
+        static void csvTokenizeLine(std::vector<std::string> &tokens, 
+                                    std::ifstream &inpFile, int row, char delimiter);
+
     public:
         Control();
         Control(std::string dataFileName); //For inputting different data
@@ -29,5 +32,5 @@ class Control {
         double getObserverLong();
         void displayObjectData();
         void targetPointing(); //This will run the coordinate calulation routine PROBABLY RENAME
-        static void getLST(timeval currTIme); //Seems useful to be static
+        void getLST();
 };

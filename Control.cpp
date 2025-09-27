@@ -4,9 +4,36 @@
 #include <string>
 #include <fstream>
 #include <sys/time.h>
+#include <iomanip>
+#include <ctime>
+#include <cmath>
 #include "AstronomicalObjects.h"
 #include "Control.h"
 #include "DataTypes.h"
+
+void Control::csvTokenizeLine(std::vector<std::string> &tokens, std::ifstream &inpFile, int row, char delimiter) {
+    std::string tempStr;
+    int front = -1;
+    int back = 0;
+    int count = 0;
+
+    for(int i = 0; i < row; i++) {
+        std::getline(inpFile, tempStr);
+    }
+
+    while (back != std::string::npos) {
+        back = tempStr.find(delimiter, front + 1);
+        if(back != std::string::npos) {
+            tokens.push_back(tempStr.substr(front + 1, back - front - 1));
+            front = back;
+            //std::cout << tokens[count] << std::endl;
+        }
+        //count++;
+    }
+    tokens.push_back(tempStr.substr(front + 1, tempStr.length() - front - 1));
+    //std::cout << tokens[count - 1] << std::endl;
+
+}
 
 Control::Control() {
     this->currentObj = AstronomicalObject();
@@ -93,12 +120,67 @@ void Control::targetPointing() {
     
 }
 
-void Control::getLST(timeval currTime) { //Currently does not have sub-second ccuracy 
+void Control::getLST() { //Currently does not have sub-second ccuracy 
+    std::vector<std::string> tokenizedCSV;
+    double DUT1, UTC, UT1;
+    time_t timestamp;
+    struct tm *dateTime;
+    char outputTimeArr[20];
+    std::string outputTimeStr;
+    timeval currTime;
+
+    int day;
+    int month;
+    int year;
+    double julianDate;
+    double UT1Hour;
+    double UT1Integral;
+    double UT1Fractional;
+    double UT1SecSinceStartofDayIntegral;
+    double UT1SecSinceStartofDayFractional;
+
+    //Loading the IERA Bulletin  A file (may want to make the name an argument or something)
+    std::ifstream file;
+    file.open("bulletina-xxxviii-039.csv");
+    if(!file.is_open()) {
+        std::cout << "file did not open" << std::endl;
+    }
+
+    //Getting a tokenized line from the IERS Bulletin A file
+    Control::csvTokenizeLine(tokenizedCSV, file, 14, ';');
+    
+    //Calculating UT1 time
+    DUT1 = stod(tokenizedCSV[14]);
     gettimeofday(&currTime, NULL);
+    UTC = currTime.tv_sec + (currTime.tv_usec / 1000000.0);
+    UT1 = UTC + DUT1;
 
-    double secondsSinceStartofDay;
+    std::cout << std::fixed << UTC << " + " << DUT1 << " = " << " " << UT1 <<  std::endl;
 
-    secondsSinceStartofDay = currTime.tv_sec % 86400; //Should return time since the start of the day
+    //Get Julian Day
+    timestamp = time(NULL);
+    dateTime = localtime(&timestamp);
+    strftime(outputTimeArr, 20, "%F", dateTime);
 
-    std::cout << currTime.tv_sec << " " << currTime.tv_usec << std::endl;
+    outputTimeStr = outputTimeArr;
+    day = std::stoi(outputTimeStr.substr(8, 2));
+    month = std::stoi(outputTimeStr.substr(5, 2));
+    year = std::stoi(outputTimeStr.substr(0, 4));
+
+    if(month < 3) { //Correcting for JD defintions of start and end of year
+        month += 12;
+        year--;
+    }
+
+    UT1Fractional = std::modf(UT1, &UT1Integral); //Getting fractional and Integral part of UT1 time
+    UT1SecSinceStartofDayFractional =  std::modf((int)UT1Integral % 86400 + (UT1 - UT1Integral),
+                                       &UT1SecSinceStartofDayIntegral);
+    UT1Hour = (UT1SecSinceStartofDayIntegral / 3600.0) + (UT1SecSinceStartofDayFractional / 3600.0); //Converting to hours
+    std::cout << UT1Hour << std::endl;
+
+    julianDate = 367.0 * year - std::trunc(((7.0 * (year + std::trunc((month + 9.0) / 12.0))) / 4.0)) +
+                 std::trunc((275.0 * month) / 9.0) + day + 1721013.5 + (UT1Hour / 24.0) -
+                 (0.5 * std::copysign(1.0, (100.0 * year) + month - 190002.5)) + 0.5;
+
+    std::cout << julianDate << std::endl;
 }

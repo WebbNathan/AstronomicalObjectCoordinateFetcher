@@ -6,7 +6,9 @@
 #include <sys/time.h>
 #include <iomanip>
 #include <ctime>
+#include <chrono>
 #include <cmath>
+#include <format>
 #include "AstronomicalObjects.h"
 #include "Control.h"
 #include "DataTypes.h"
@@ -128,18 +130,18 @@ void Control::getLST(std::string DUT1data) { //Currently does not have sub-secon
     julianDate = returnJulianDay(UT1);
     GMST = returnGMST(julianDate, UT1);
     LST = GMST + (observerLong / 15.0);
-    std::cout << LST << std::endl;
+    if(LST < 0) {
+        LST += 24;
+    }
     LSTFractional = std::modf(LST, &LSTIntegral);
     currentLST.hours = LSTIntegral;
     LSTMinFractional = std::modf(LSTFractional * 60, &LSTMinIntegral);
     currentLST.minutes = LSTMinIntegral;
     currentLST.seconds = 60 * LSTMinFractional; 
 
-    std::cout << "GMST: " << GMST << " LST: " << 
-              currentLST.hours << " " << currentLST.minutes <<
+    std::cout <<"LST: " << currentLST.hours << " " << currentLST.minutes <<
               " " << currentLST.seconds << std::endl; 
 
-    std::cout << std::fixed << UT1 << std::endl;
     //std::cout << std::fixed << julianDate << std::endl;
 
 }
@@ -169,8 +171,6 @@ double Control::returnUT1(std::string DUT1fileName) {
 }
 
 double Control::returnJulianDay(double UT1) {
-    time_t timestamp;
-    struct tm *dateTime;
     char outputTimeArr[20];
     std::string outputTimeStr;
 
@@ -185,14 +185,15 @@ double Control::returnJulianDay(double UT1) {
     double UT1SecSinceStartofDayFractional;
 
     //Get Julian Day
-    timestamp = time(NULL);
-    dateTime = localtime(&timestamp);
-    strftime(outputTimeArr, 20, "%F", dateTime);
+    std::chrono::system_clock::time_point now = std::chrono::system_clock::now(); 
+    time_t tt = std::chrono::system_clock::to_time_t(now);
+    tm utc_tm = *gmtime(&tt);
+    //Got above code from stack overflow 
+    //https://stackoverflow.com/questions/15957805/extract-year-month-day-etc-from-stdchronotime-point-in-c
 
-    outputTimeStr = outputTimeArr;
-    day = std::stoi(outputTimeStr.substr(8, 2));
-    month = std::stoi(outputTimeStr.substr(5, 2));
-    year = std::stoi(outputTimeStr.substr(0, 4));
+    day = utc_tm.tm_mday;
+    month = utc_tm.tm_mon + 1;
+    year = utc_tm.tm_year + 1900;
 
     if(month < 3) { //Correcting for JD defintions of start and end of year
         month += 12;
@@ -235,7 +236,7 @@ double Control::returnGMST(double julianDay, double UT1) {
     D_ut = JD_0 - 2451545.0;
     T = D_ut / 36525.0;
 
-    GMST = 6.697375 + (0.065707485828 * D_ut) + (1.0027379 * HoursSinceDayStart) + (0.0854103 * T) +
+    GMST = 6.697375 + (0.065709824279 * D_ut) + (1.0027379 * HoursSinceDayStart) +
            (0.0000258 * T * T);
 
     GMST = ((int)std::trunc(GMST) % 24) + GMST - std::trunc(GMST);

@@ -2,7 +2,6 @@
 #include <string>
 #include "AstronomicalObjects.h"
 #include "Control.h"
-#include "DataTypes.h"
 
 AstronomicalObject::AstronomicalObject() {
     this->id = 0;

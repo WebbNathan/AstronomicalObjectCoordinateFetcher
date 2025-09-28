@@ -10,7 +10,19 @@
 #include <cmath>
 #include "AstronomicalObjects.h"
 #include "Control.h"
-#include "DataTypes.h"
+
+struct Control::R_a {
+    double hours;
+    double minutes;
+    double seconds;
+};
+
+struct Control::Dec {
+    int sign;
+    double degrees;
+    double arcminutes;
+    double arcseconds;
+};
 
 void Control::csvTokenizeLine(std::vector<std::string> &tokens, std::ifstream &inpFile, int row, char delimiter) {
     std::string tempStr;

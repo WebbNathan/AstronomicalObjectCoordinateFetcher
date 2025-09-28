@@ -36,5 +36,5 @@ class Control {
         double getObserverLong();
         void displayObjectData();
         void targetPointing(); //This will run the coordinate calulation routine PROBABLY RENAME
-        void getLST(std::string DUT1data);
+        void getLST(std::string DUT1data);  //Maybe make dut1data a member of the class
 };

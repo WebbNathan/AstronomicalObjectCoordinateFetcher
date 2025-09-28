@@ -8,7 +8,6 @@
 #include <ctime>
 #include <chrono>
 #include <cmath>
-#include <format>
 #include "AstronomicalObjects.h"
 #include "Control.h"
 #include "DataTypes.h"

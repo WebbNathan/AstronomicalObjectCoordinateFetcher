@@ -13,10 +13,6 @@ using namespace std;
 
 int main() {
 
-    timeval currTime;
-    std::vector<std::string> tokenizedCsv;
-    std::string DUT1;
-
     Control controlObj = Control();
 
     controlObj.populateDataTable();
@@ -26,7 +22,7 @@ int main() {
     controlObj.displayObjectData();
 
     controlObj.setObserverLong(-110.90282182636426);
-    //-110.90282182636426
+
     controlObj.getLST("bulletina-xxxviii-039.csv");
 
     return 0;

@@ -6,6 +6,7 @@
 #include <sys/time.h>
 #include "AstronomicalObjects.h"
 #include "Control.h"
+#include "DataTypes.h"
 using namespace std;
 
 //This file will act as a test driver for my project

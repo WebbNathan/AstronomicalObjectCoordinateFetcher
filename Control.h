@@ -25,9 +25,6 @@ class Control {
         static double returnGMST(double julianDay, double UT1);
 
     public:
-        struct R_a;
-        struct Dec;
-            
         Control();
         Control(std::string dataFileName); //For inputting different data
         void populateDataTable();

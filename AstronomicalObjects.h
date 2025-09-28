@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "DataTypes.h"
 
 class AstronomicalObject {  //Stores information about an object
 

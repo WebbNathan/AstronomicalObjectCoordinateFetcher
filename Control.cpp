@@ -120,13 +120,27 @@ void Control::targetPointing() {
     
 }
 
-void Control::getLST() { //Currently does not have sub-second ccuracy 
-    double UT1, julianDate;
+void Control::getLST(std::string DUT1data) { //Currently does not have sub-second accuracy 
+    double UT1, julianDate, GMST, LST;
+    double LSTIntegral, LSTFractional, LSTMinIntegral, LSTMinFractional;
 
-    UT1 = returnUT1("bulletina-xxxviii-039.csv");
+    UT1 = returnUT1(DUT1data);
     julianDate = returnJulianDay(UT1);
+    GMST = returnGMST(julianDate, UT1);
+    LST = GMST + (observerLong / 15.0);
+    std::cout << LST << std::endl;
+    LSTFractional = std::modf(LST, &LSTIntegral);
+    currentLST.hours = LSTIntegral;
+    LSTMinFractional = std::modf(LSTFractional * 60, &LSTMinIntegral);
+    currentLST.minutes = LSTMinIntegral;
+    currentLST.seconds = 60 * LSTMinFractional; 
 
-    std::cout << std::fixed << julianDate << std::endl;
+    std::cout << "GMST: " << GMST << " LST: " << 
+              currentLST.hours << " " << currentLST.minutes <<
+              " " << currentLST.seconds << std::endl; 
+
+    std::cout << std::fixed << UT1 << std::endl;
+    //std::cout << std::fixed << julianDate << std::endl;
 
 }
 
@@ -189,11 +203,46 @@ double Control::returnJulianDay(double UT1) {
     UT1SecSinceStartofDayFractional =  std::modf((int)UT1Integral % 86400 + (UT1 - UT1Integral),
                                        &UT1SecSinceStartofDayIntegral);
     UT1Hour = (UT1SecSinceStartofDayIntegral / 3600.0) + (UT1SecSinceStartofDayFractional / 3600.0); //Converting to hours
-    std::cout << UT1Hour << std::endl;
 
     julianDate = 367.0 * year - std::trunc(((7.0 * (year + std::trunc((month + 9.0) / 12.0))) / 4.0)) +
                  std::trunc((275.0 * month) / 9.0) + day + 1721013.5 + (UT1Hour / 24.0) -
                  (0.5 * std::copysign(1.0, (100.0 * year) + month - 190002.5)) + 0.5;
 
     return julianDate;
+
+    //https://aa.usno.navy.mil/faq/JD_formula    Info on UT1 -> Julian date
+
+}
+
+double Control::returnGMST(double julianDay, double UT1) {
+    double UT1StartofDay;
+    double SecondsSinceDayStart;
+    double SecondsSinceDayStartIntegral;
+    double SecondsSinceDayStartFractional;
+    double HoursSinceDayStart;
+    double D_ut;
+    double T;
+    double GMST;
+    int UT1Integral = (int)std::trunc(UT1);
+
+
+    SecondsSinceDayStart = (UT1Integral % 86400) + (UT1 - UT1Integral);
+    UT1StartofDay = UT1 - SecondsSinceDayStart;
+    SecondsSinceDayStartFractional = std::modf(SecondsSinceDayStart, &SecondsSinceDayStartIntegral);
+    HoursSinceDayStart = (SecondsSinceDayStartIntegral / 3600.0) + (SecondsSinceDayStartFractional / 3600.0);
+
+    double JD_0 = returnJulianDay(UT1StartofDay); //This will store julian Day at start of day
+    D_ut = JD_0 - 2451545.0;
+    T = D_ut / 36525.0;
+
+    GMST = 6.697375 + (0.065707485828 * D_ut) + (1.0027379 * HoursSinceDayStart) + (0.0854103 * T) +
+           (0.0000258 * T * T);
+
+    GMST = ((int)std::trunc(GMST) % 24) + GMST - std::trunc(GMST);
+
+    //GMST = mod (6.697375 + 0.065707485828 DUT + 1.0027379 H + 0.0854103 T + 0.0000258 T2, 24) h
+
+    return GMST;
+
+    //https://aa.usno.navy.mil/faq/GAST       Info on Julian date -> GWMST
 }

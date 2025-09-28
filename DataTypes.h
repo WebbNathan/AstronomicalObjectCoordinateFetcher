@@ -1,14 +1,14 @@
 #pragma once
 
 struct R_a {
-    int hours;
-    int minutes;
-    int seconds;
+    double hours;
+    double minutes;
+    double seconds;
 };
 
 struct Dec {
     int sign;
-    int degrees;
-    int arcminutes;
-    int arcseconds;
+    double degrees;
+    double arcminutes;
+    double arcseconds;
 };

@@ -25,7 +25,9 @@ int main() {
 
     controlObj.displayObjectData();
 
-    controlObj.getLST();
+    controlObj.setObserverLong(0);
+    //-110.90282182636426
+    controlObj.getLST("bulletina-xxxviii-039.csv");
 
     return 0;
 }

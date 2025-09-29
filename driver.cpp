@@ -6,7 +6,6 @@
 #include <sys/time.h>
 #include "AstronomicalObjects.h"
 #include "Control.h"
-#include "DataTypes.h"
 using namespace std;
 
 //This file will act as a test driver for my project
@@ -21,9 +20,13 @@ int main() {
 
     controlObj.displayObjectData();
 
+    controlObj.setObserverLat(32.33561175229357);
+
     controlObj.setObserverLong(-110.90282182636426);
 
-    controlObj.getLST("bulletina-xxxviii-039.csv");
+    controlObj.setDUT1Data("bulletina-xxxviii-039.csv");
+
+    controlObj.getLST();
 
     return 0;
 }

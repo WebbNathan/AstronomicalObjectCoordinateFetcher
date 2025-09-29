@@ -10,7 +10,6 @@
 #include <cmath>
 #include "AstronomicalObjects.h"
 #include "Control.h"
-#include "DataTypes.h"
 
 void Control::csvTokenizeLine(std::vector<std::string> &tokens, std::ifstream &inpFile, int row, char delimiter) {
     std::string tempStr;
@@ -97,12 +96,20 @@ void Control::setObserverLong(double observerLong) {
     this->observerLong = observerLong;
 }
 
+void Control::setDUT1Data(std::string csvFile) {
+    this->DUT1DataFileName = csvFile;
+}
+
 double Control::getObserverLat() {
     return observerLat;
 }
 
 double Control::getObserverLong() {
     return observerLong;
+}
+
+std::string Control::getDUT1Data() {
+    return dataFileName;
 }
 
 void Control::displayObjectData() {
@@ -121,11 +128,11 @@ void Control::targetPointing() {
     
 }
 
-void Control::getLST(std::string DUT1data) { //Currently does not have sub-second accuracy 
+void Control::getLST() { //Currently does not have sub-second accuracy 
     double UT1, julianDate, GMST, LST;
     double LSTIntegral, LSTFractional, LSTMinIntegral, LSTMinFractional;
 
-    UT1 = returnUT1(DUT1data);
+    UT1 = returnUT1(this->dataFileName);
     julianDate = returnJulianDay(UT1);
     GMST = returnGMST(julianDate, UT1);
     LST = GMST + (observerLong / 15.0);
@@ -158,7 +165,7 @@ double Control::returnUT1(std::string DUT1fileName) {
     }
 
     //Getting a tokenized line from the IERS Bulletin A file
-    Control::csvTokenizeLine(tokenizedCSV, file, 14, ';');
+    Control::csvTokenizeLine(tokenizedCSV, file, 15, ';'); //Currently set for 9/28
     
     //Calculating UT1 time
     DUT1 = stod(tokenizedCSV[14]);
@@ -245,4 +252,8 @@ double Control::returnGMST(double julianDay, double UT1) {
     return GMST;
 
     //https://aa.usno.navy.mil/faq/GAST       Info on Julian date -> GWMST
+}
+
+void Control::calculateAltAz() {
+
 }

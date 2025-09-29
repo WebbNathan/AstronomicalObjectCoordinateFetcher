@@ -2,7 +2,6 @@
 #include <string>
 #include "AstronomicalObjects.h"
 #include "Control.h"
-#include "DataTypes.h"
 
 AstronomicalObject::AstronomicalObject() {
     this->id = 0;
@@ -70,6 +69,14 @@ void AstronomicalObject::setCurr_Dec(Dec curr_Dec) {
     this->currDec = curr_Dec;
 }
 
+void AstronomicalObject::setAlt(double Alt) {
+    this->Alt = Alt;
+}
+
+void AstronomicalObject::setAz(double Az) {
+    this->Az = Az;
+}
+
 int AstronomicalObject::getId() {
     return id;
 }
@@ -100,4 +107,12 @@ R_a AstronomicalObject::getCurr_R_a() {
 
 Dec AstronomicalObject::getCurr_Dec() {
     return currDec;
+}
+
+double AstronomicalObject::getAlt() {
+    return Alt;
+}
+
+double AstronomicalObject::getAz() {
+    return Az;
 }

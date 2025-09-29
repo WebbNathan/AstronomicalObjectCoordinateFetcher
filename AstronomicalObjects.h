@@ -10,6 +10,8 @@ class AstronomicalObject {  //Stores information about an object
         Dec J2000_Dec;
         R_a currR_a;
         Dec currDec;
+        double Alt;
+        double Az;
         int id;
         double J2000_R_a_PM;
         double J2000_R_a_PMSD;
@@ -31,6 +33,8 @@ class AstronomicalObject {  //Stores information about an object
         void setMagnitude(double magnitude);
         void setCurr_R_a(R_a curr_R_a);
         void setCurr_Dec(Dec curr_Dec);
+        void setAlt(double Alt);
+        void setAz(double Az);
         int getId();
         R_a getJ2000_R_a();
         double getJ2000_R_a_PM();
@@ -39,4 +43,6 @@ class AstronomicalObject {  //Stores information about an object
         double getMagnitude();
         R_a getCurr_R_a();
         Dec getCurr_Dec();
+        double getAlt();
+        double getAz();
 };

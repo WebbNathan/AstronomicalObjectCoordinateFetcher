@@ -5,14 +5,15 @@
 #include <string>
 #include <fstream>
 #include <sys/time.h>
+#include "DataTypes.h"
 #include "AstronomicalObjects.h"
 
 class Control {
-
     private:
         std::vector<std::array<std::string, 20>> dataTable;
         AstronomicalObject currentObj;
         std::string dataFileName; //Defualt: sao.txt
+        std::string DUT1DataFileName;
 
         double observerLat;
         double observerLong;
@@ -31,10 +32,13 @@ class Control {
         void setAstroObject(int SAOid);
         void setObserverLat(double observerLat);
         void setObserverLong(double observerLong);
+        void setDUT1Data(std::string csvFile);
         AstronomicalObject getAstroObject(); //May not keep
         double getObserverLat();
         double getObserverLong();
+        std::string getDUT1Data();
         void displayObjectData();
         void targetPointing(); //This will run the coordinate calulation routine PROBABLY RENAME
-        void getLST(std::string DUT1data);  //Maybe make dut1data a member of the class
+        void getLST();  //Maybe make dut1data a member of the class
+        void calculateAltAz();
 };

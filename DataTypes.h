@@ -1,4 +1,5 @@
-#pragma once
+#pragma once //THIS FILE EXISTS BECAUSE OF CIRCULAR REFERNCING
+#include <iostream>
 
 struct R_a {
     double hours;
